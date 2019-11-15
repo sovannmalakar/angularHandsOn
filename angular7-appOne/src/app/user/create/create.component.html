@@ -1,0 +1,60 @@
+<div class="row mb-2">
+    <div class="col-md-12">
+        <a type="button" [routerLink]="['/user']" class="btn btn-primary float-right">Back</a>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()"  >
+        <div class="card">
+          <div class="card-header">Add User</div>
+          <div class="card-body">      
+            <div class="form-group">
+              <label for="fullName">FullName:</label>
+              <input type="text" class="form-control" id="fullName" formControlName="fullName" [ngClass]="{ 'is-invalid': submitted && userForm.get('fullName').errors }" />             
+               <div *ngIf="submitted && userForm.get('fullName').errors" class="invalid-feedback">
+                The Full Name is required
+              </div> 
+              <!-- <app-display-error  control="formErrors.fullName"></app-display-error> -->
+              
+            </div> 
+           
+            <div class="form-group">
+              <label for="email">Email address:</label>
+              <input type="text" class="form-control" id="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && userForm.get('email').errors }">
+              <div *ngIf="submitted && userForm.get('email').errors" class="invalid-feedback">
+                  <div *ngIf="userForm.get('email').errors.required">Skill Name is required</div>
+                  <div *ngIf="userForm.get('email').errors.email">Email must be a valid email address</div>
+              </div>
+              <!-- <app-display-error *ngIf="formErrors.email" [control]="formErrors.email"></app-display-error> -->
+            </div>
+           
+              <div class="form-group">
+                <label for="skillName">SkillName:</label>
+                <input type="text" class="form-control" id="skillName" formControlName="skillName" [ngClass]="{ 'is-invalid': submitted && userForm.get('skillName').errors }" />             
+                <div *ngIf="submitted && userForm.get('skillName').errors" class="invalid-feedback">
+                    <div *ngIf="userForm.get('skillName').errors.required">Skill Name is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="experienceInYears">Experience in Years:</label>
+                <input type="text" class="form-control" id="experienceInYears" formControlName="experienceInYears" [ngClass]="{ 'is-invalid': submitted && userForm.get('experienceInYears').errors }" />             
+                <div *ngIf="submitted && userForm.get('experienceInYears').errors" class="invalid-feedback">
+                    <div *ngIf="userForm.get('experienceInYears').errors.required">Experience is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="radio" value="beginner" id="proficiency" formControlName="proficiency">Beginner
+                <input type="radio" value="intermediate" id="proficiency" formControlName="proficiency">Intermediate
+                <input type="radio" value="advanced" id="proficiency" formControlName="proficiency">Advanced
+                
+              </div>
+         
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary mr-1 " (click)="onLoadDataClick()">Load</button>
+            <button type="submit" class="btn btn-success ">Save</button></div>
+        </div>
+      </form>
+  </div>
+</div>

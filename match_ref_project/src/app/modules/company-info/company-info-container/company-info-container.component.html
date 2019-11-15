@@ -1,0 +1,242 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="card mb-3">
+      <div class="card-header">Update Company Info</div>
+      <div class="card-body">
+        <form #userregister="ngForm" (ngSubmit)="onUpdate()" ngNativeValidate>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label">Contact First Name</label>
+              <input type="text" class="form-control" name="fname" placeholder="First Name"
+                [(ngModel)]='userInfo.partnerContactFName'>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Contact Last Name</label>
+              <input type="test" class="form-control" name="lname" placeholder="Last Name"
+                [(ngModel)]='userInfo.partnerContactLName'>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label">Contact Email</label>
+              <input type="email" class="form-control" name="email" placeholder="Email"
+                [(ngModel)]='userInfo.partnerContactEmail'>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Contact Phone Number</label>
+              <input type="text" name="phone" class="form-control" placeholder="Phone Number"
+                [(ngModel)]='userInfo.partnerContactPhone'>
+            </div>
+          </div>
+
+          <hr class="border-light my-4">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label"> Company Name</label>
+              <input type="text" class="form-control" name='billname' placeholder="Company Name"
+                [(ngModel)]='userInfo.partnerBillName'>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Company Phone</label>
+              <input type="text" class="form-control" name='billphone' placeholder="Company Phone"
+                [(ngModel)]='userInfo.partnerBillPhone'>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label">Billing Address 1</label>
+              <input type="text" class="form-control" name='billaddr1' placeholder="1023 Main Road"
+                [(ngModel)]='userInfo.partnerBillAddress1'>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Billing Address 2</label>
+              <input type="text" class="form-control" name='billaddr2' placeholder="Time Square"
+                [(ngModel)]='userInfo.partnerBillAddress2'>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label class="form-label">City</label>
+              <!-- <input placeholder="search for location" autocorrect="off" name='billcity' autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [(ngModel)] = 'userInfo.partnerBillCity'> -->
+              <input type="text" placeholder="City Name" name='billcity' class="form-control"
+                [(ngModel)]='userInfo.partnerBillCity'>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="form-label">State</label>
+              <ng-select style="border:none; margin-top: -7px" [items]="selectStates" class="form-control" [multiple]="false" bindLabel="name"
+                bindValue="abbreviation" [(ngModel)]='userInfo.partnerBillState' name='billState' required>
+              </ng-select>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="form-label">Country</label>
+              <!-- <input type="text" placeholder="Country" name='billcountry' class="form-control" [(ngModel)] = 'userInfo.partnerBillCountry'> -->
+              <ng-select style="border:none; margin-top: -7px" [items]="selectCounntries" class="form-control" [multiple]="false" bindLabel="label"
+                bindValue="value" [(ngModel)]='userInfo.partnerBillCountry' name='billCountry'>
+              </ng-select>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="form-label">Zip</label>
+              <input placeholder="Zip Code" class="form-control" name='billzip' type='text'
+                [(ngModel)]='userInfo.partnerBillZip'>
+            </div>
+          </div>
+          <hr class="border-light my-4">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label class="form-label mr-3">Allow Notification</label>
+              <label class="switcher">
+                <input type="checkbox" class="switcher-input cursor" (change)='changeNotification($event)' [checked]="userInfo.sendNotification">
+                <span class="switcher-indicator">
+                  <span class="switcher-yes">
+                    <span class="ion ion-md-checkmark"></span>
+                  </span>
+                  <span class="switcher-no">
+                    <span class="ion ion-md-close"></span>
+                  </span>
+                </span>
+
+              </label>
+            </div>
+            <div class="form-group col-md-6 mt-2" *ngIf="showNotificationOptions">
+              <div class="demo-inline-spacing">
+                <label class="switcher switcher-success">
+                  <input type="checkbox" class="switcher-input" (change)='changeNotificationSms($event)' [checked]="userInfo.notificationThroughSms">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes">
+                      <span class="ion ion-md-checkmark"></span>
+                    </span>
+                    <span class="switcher-no">
+                      <span class="ion ion-md-close"></span>
+                    </span>
+                  </span>
+                  <span class="switcher-label">Through SMS</span>
+                </label>
+
+                <label class="switcher switcher-info">
+                  <input type="checkbox" class="switcher-input" (change)='changeNotificationApp($event)' [checked]="userInfo.notificationThroughApp">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes">
+                      <span class="ion ion-md-checkmark"></span>
+                    </span>
+                    <span class="switcher-no">
+                      <span class="ion ion-md-close"></span>
+                    </span>
+                  </span>
+                  <span class="switcher-label">Through App</span>
+                </label>
+
+                <label class="switcher switcher-warning">
+                  <input type="checkbox" class="switcher-input" (change)='changeNotificationEmail($event)' [checked]="userInfo.notificationThroughEmail">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes">
+                      <span class="ion ion-md-checkmark"></span>
+                    </span>
+                    <span class="switcher-no">
+                      <span class="ion ion-md-close"></span>
+                    </span>
+                  </span>
+                  <span class="switcher-label">Through Email</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group col-md-6 mt-2" *ngIf="showNotificationOptions && !hideIfLawyer ">
+              <div class="row">
+                  <label class="form-label mb-3 col-md-4 font-weight-semibold mileRenge">Job notification miles</label>
+                  <ng-select [items]="miles" name="miles" bindLabel="label" bindValue="value" class="col-md-8 mt-m-1"
+                    [(ngModel)]="userInfo.notificationForJobsWithInMilies" (ngModelChange)="milesChanged($event)"
+                    placeholder="Select Max Miles" [disabled]="disabled">
+                  </ng-select>
+              </div>
+              
+            </div>
+          </div>
+
+          <div  *ngIf='!hideIfLawyer'>
+          <hr class="border-light my-4">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label mr-3">On Site Availibility</label>
+              <label class="switcher">
+                <input type="checkbox" class="switcher-input cursor" (change)='changeOnSiteAvailibility($event)' [checked]="userInfo.onSiteAvailability">
+                <span class="switcher-indicator">
+                  <span class="switcher-yes">
+                    <span class="ion ion-md-checkmark"></span>
+                  </span>
+                  <span class="switcher-no">
+                    <span class="ion ion-md-close"></span>
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label class="form-label mr-3">Remote Job Availibility</label>
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input cursor" (change)='changeRemoteSiteAvailability($event)' [checked]="userInfo.remoteSiteAvailability">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes">
+                      <span class="ion ion-md-checkmark"></span>
+                    </span>
+                    <span class="switcher-no">
+                      <span class="ion ion-md-close"></span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          <hr class="border-light mt-2">
+          
+
+
+          <h6 class="mb-3 font-weight-semibold">
+            Service Offered
+          </h6>
+          <div class="row mg-bottom" *ngFor="let row of newArray ;  let i = index">
+            <ng-container *ngFor="let item of row?.items;  let j = index">
+              <label class="col-xs-12 col-md-4">
+                <input type="checkbox" [checked]="item.checked" id=tag.productGuids class='custom-checkbox'
+                  name="tagOptions" (change)='changeCheckbox(item , i , j)' /> <span
+                  class='ml-4'>{{item.productName}}</span>
+              </label>
+            </ng-container>
+          </div>
+
+          <hr class="border-light my-2">
+          <h6 class="mb-3 font-weight-semibold">Certification</h6>
+          <div class="row mg-bottom" *ngFor="let row of newCertificationArray ;  let i = index">
+            <ng-container *ngFor="let item of row?.items;  let j = index">
+              <label class="col-xs-12 col-md-6">
+                <input type="checkbox" [checked]="item.checked" id=tag.certificationGuid class='custom-checkbox'
+                  name="tagOptions" (change)='changeCertificationCheckbox(item , i , j)' required /> <span
+                  class='ml-4'>{{item.certificationName}}</span>
+              </label>
+            </ng-container>
+          </div>
+
+
+          <hr class="border-light my-2">
+
+          <h6 class="mb-3 font-weight-semibold">Membership</h6>
+          <div class="row mg-bottom" *ngFor="let row of newMembershipArray ;  let i = index">
+            <ng-container *ngFor="let item of row?.items;  let j = index">
+              <label class="col-xs-12 col-md-12">
+                <input type="checkbox" [checked]="item.checked" id=tag.membershipGuid class='custom-checkbox'
+                  name="tagOptions" (change)='changemembershipCheckbox(item , i , j)' required /> <span
+                  class='ml-4'>{{item.membershipName}}</span>
+              </label>
+            </ng-container>
+          </div>
+          </div>
+          <div class="fl-right">
+            <button [ladda]="loading" (click)="onUpdate()" data-style="expand-left"
+              class="btn btn-primary">Update</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,572 @@
+@import '~ngx-toastr/toastr.css';
+@import 'src/vendor/styles/bootstrap.scss';
+@import 'src/vendor/styles/appwork.scss';
+ @import 'src/vendor/styles/theme-corporate.scss';
+@import 'src/vendor/styles/colors.scss';
+@import 'src/vendor/styles/uikit.scss';
+@import '../node_modules/ladda/dist/ladda.min.css';
+
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+// Remove outline on desktops
+@media(min-width: 720px) {
+  ngb-carousel,
+  .dropdown-item,
+  ngb-datepicker,
+  ngb-rating {
+    outline: 0 !important;
+  }
+}
+
+.dropdown-menu-right {
+  right: auto !important;
+}
+
+// *******************************************************************************
+// * Page transition
+
+.router-transitions {
+  opacity: 1;
+  transition: opacity .2s;
+
+  body.app-loading & {
+    opacity: .75;
+  }
+}
+
+// *******************************************************************************
+// * Tooltip and popover animations
+
+@include keyframes(ngTooltipAnimation) {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+ngb-tooltip-window {
+  animation: ngTooltipAnimation .25s;
+}
+
+// *******************************************************************************
+// * Modal animations
+
+@include keyframes(ngModalBackdropAnimation) {
+  0% { opacity: 0; }
+  100% { opacity: .5; }
+}
+@include keyframes(ngMaterialModalBackdropAnimation) {
+  0% { opacity: 0; }
+  100% { opacity: .2; }
+}
+@include keyframes(ngDefaultModalAnimation) {
+  0% {
+    opacity: 0;
+    transform: translateY(150px) scale(.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@include keyframes(ngTopModalAnimation) {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@include keyframes(ngSlideModalAnimation) {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@include keyframes(ngRtlSlideModalAnimation) {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@include keyframes(ngFillInModalAnimation) {
+  0% {
+    opacity: 0;
+    transform: scale(.5, .5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+ngb-modal-backdrop.modal-backdrop {
+  opacity: .5;
+  animation: ngModalBackdropAnimation .15s ease-out;
+}
+
+ngb-modal-window {
+  &.modal .modal-dialog {
+    animation: ngDefaultModalAnimation .15s ease-out;
+  }
+
+  &.modal-top .modal-dialog {
+    animation: ngTopModalAnimation .15s ease-out;
+  }
+
+  &.modal-slide .modal-dialog {
+    animation: ngSlideModalAnimation .15s ease-out;
+  }
+
+  &.modal-fill-in .modal-dialog {
+    animation: ngFillInModalAnimation .15s ease-out;
+  }
+
+  [dir=rtl] &.modal-slide .modal-dialog {
+    animation: ngRtlSlideModalAnimation .15s ease-out;
+  }
+}
+
+.material-style ngb-modal-backdrop.modal-backdrop {
+  opacity: .2;
+  animation: ngMaterialModalBackdropAnimation .15s ease-out;
+}
+
+// Prevent horizontal scrollbar
+[dir=rtl] .dz-hidden-input {
+  right: 0 !important;
+  left: auto !important;
+}
+
+// *******************************************************************************
+// * Accordion
+
+ngb-accordion .card-header > * > .btn.btn-link {
+  width: 100%;
+  padding: 0;
+  text-align: inherit;
+  white-space: normal;
+  vertical-align: inherit;
+  border: 0;
+  font-size: .894rem;
+}
+
+.custom-btn-red, .custom-btn-red:hover {
+  background: #ed5565;
+  color: #fff;
+}
+
+.custom-btn-blue, .custom-btn-blue:hover {
+  background: #1c84c6;
+  color: #fff;
+}
+.custom-btn-green {
+  background: rgb(26, 179, 148);
+  color: #fff
+}
+
+.custom-btn-yellow, .custom-btn-yellow:hover {
+  background: rgb(248, 172, 89);
+  color: #fff
+}
+
+.custom-btn-sky, .custom-btn-sky:hover {
+  background: #23c6c8;
+  color: #fff;
+}
+
+
+.ngb-accordion-with-icon .card-header > * > .btn.btn-link {
+  display: flex;
+  justify-content: space-between;
+}
+
+// *******************************************************************************
+// * Typeahead
+
+ngb-typeahead-window .dropdown-item {
+  cursor: pointer;
+}
+
+.h100 {
+     height: 56vh;
+}
+
+.custom-spinner {
+  position: absolute;
+  top: 50%;
+  margin: 0 auto;
+  left: 47%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.loader-text {
+  color: #fff;
+    margin-left: 20px;
+}
+
+.logout-button {
+  position: absolute!important;
+  right: 15px;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.h-align-right {
+  text-align: right;
+}
+
+.h-align-middle {
+  text-align: center;
+}
+
+#toast-container > div {
+  padding: 10px;
+  color:#fff;
+  width: 300px !important;
+  opacity: 1;
+  border-radius: 2%;
+  z-index: 999999;
+   min-height: 60px;
+   background-image: none !important;
+}
+
+.sideDrawerClose {
+  height: 40px;
+    width: 40px;
+    border: 1px solid;
+    padding: 26px;
+    z-index: 9999999;
+}
+
+.contact-card:hover {
+  background-color: transparent;
+}
+
+.autoHeight {height: -webkit-fill-available}
+
+.userTypeSelect {
+  width: min-content;
+}
+
+.btn-group-xl .btn {
+  margin: 0px 5px;
+  height: 120px;
+  cursor: pointer;
+}
+
+.btn-group-xl .btn:focus {
+  background-color: transparent;
+  color: #768394;
+}
+
+.nextIcon i {
+  color: #768394;
+  font-size: xx-large;
+  float: right;
+  cursor: pointer;
+}
+
+.dashboard-view-more-icon {
+  float: right;
+  margin-top: 5px;
+  font-size: 17px;
+}
+
+.auth-inner{
+  max-width: 511px!important;
+}
+
+span.fas.fa-balance-scale::before {
+  font-size:30px;
+  margin-bottom: 10px;
+}
+span.fas.fa-user-friends::before {
+  font-size:30px;
+  margin-bottom: 10px;
+}
+span.fas.fa-user-alt::before {
+  font-size:30px;
+  margin-bottom: 10px;
+}
+
+.error_hint {
+  font-size: x-small;
+    color: red;
+}
+
+.ng-autocomplete {
+  width: 179px !important;
+}
+
+.autocomplete-container .suggestions-container ul li {
+  padding: 7px !important;
+}
+
+.autocomplete-container {
+  box-shadow: none !important;
+  border : 1px solid #ededed;
+}
+
+.component-cotainer {
+  min-height: -webkit-fill-available;
+}
+
+.pagination-containar {
+  float: right;
+  padding: 10px 10px;
+}
+
+.clients-sidebox {
+  z-index: 9999!important;
+}
+
+
+
+.x-large{
+  font-size: x-large
+}
+
+.pagetitle {
+  margin-left: 54%;
+  transform: translateX(-54%);
+}
+
+.suggestions-container.is-visible {
+  z-index: 9;
+}
+
+.sideboxlogo {
+  text-align: -webkit-center;
+}
+
+.bg-navbar-theme .navbar-brand {
+  color: #fff;
+  font-size: 21px;
+}
+
+.a.nav-link.dropdown-toggle.dropdown-toggle {
+  color: #fff !important;
+}
+
+
+
+.logout-text , .logout-text::after {
+  color: #fff
+}
+
+.dropdown-toggle::after, .dropup .dropdown-toggle::after, .dropright .dropdown-toggle::after {
+  color: #fff;
+}
+
+.dashboard-stats-card {
+  min-height: 113px;
+}
+
+.apply-dashboard-calendar-class .cal-month-view .cal-days div {
+   max-height: 57px;
+   overflow: hidden;
+}
+
+.apply-dashboard-calendar-class .cal-month-view  .cal-cell-top {
+  min-height: 0px !important;
+}
+.apply-dashboard-calendar-class .cal-month-view .cal-days div .cal-cell-row .cal-cell .cal-cell-top .cal-day-badg {
+  margin-top: 4px !important;
+  margin-left: 4px !important;
+}
+.apply-dashboard-calendar-class .cal-month-view .cal-days div .cal-cell-row .cal-cell .cal-events {
+  max-height: 25px!important;
+  min-height: 0px !important;
+}
+
+.apply-dashboard-calendar-class .cal-month-view .cal-days div .cal-cell-row .cal-cell .cal-cell-top {
+  max-height: 25px!important;
+  min-height: 0px !important;
+  overflow: initial;
+}
+
+
+.contact-card .avatar-container {
+  margin: auto auto 17px auto;
+}
+
+.badge-custom {
+    background-color: #fff;
+    color: #6db432;
+}
+
+.bg-navbar-theme .navbar-nav .nav-link:focus, .bg-navbar-theme .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+.sidenav-vertical .sidenav-inner > .sidenav-item:active {
+  color: #6db432;
+}
+
+.m-auto-0 {
+  margin: auto 0 ;
+}
+
+
+.child-menu {
+  margin-left: 30px;
+}
+
+.custom-info-box {
+  background-color: #fff;
+  padding: 4px;
+}
+
+mb-0 {
+  margin-bottom: 0px !important;
+}
+
+.info-font {
+  font-size: smaller;
+  margin-bottom: 0px !important;
+}
+
+.custom-checkbox {
+  width: 18px;
+    height: 18px;
+    position: absolute;
+    display: inline-block;
+    margin-right: 0px;
+    background: #fff;
+}
+
+.row--user-type {
+  margin: 0 0 15px;
+  width: 500px;
+}
+
+.row--user-type .col-md-4 .box img {
+  height: 50px;
+}
+.user-type__desc {
+  font-size: 13px;
+  height: 60px;
+}
+
+.row--user-type .box .fa {
+  font-size: 20px;
+  margin: 10px 0 0;
+  color: #999;
+}
+.user-type__title {
+  font-weight: 700;
+  font-size: 14px;
+  margin: 15px 0 10px;
+  line-height: 16px;
+}
+.row--user-type .box {
+  display: inline-block;
+  padding: 25px 0 15px;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  width: 100%;
+}
+
+.box:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.1);
+  transition: box-shadow .3s;
+  border-radius:10px;
+  border: 1px solid #ccc;
+  background: #ededed;
+  padding: 10px 1px;
+}
+
+.registration {
+  position: absolute!important;
+  top: 26%!important;
+  opacity: 1.8;
+  padding-right: 70px;
+}
+
+.reg-header  img {
+  height: 50px;
+}
+
+.fl-right {
+  float: right;
+}
+
+.text-white {
+  color: #fff!important ;
+}
+
+.mt-m-1 {
+  margin-top: -0.5em;
+}
+
+.mt-m-2 {
+  margin-top: -1em;
+}
+.add-advertisement-modal-body {
+  overflow-y: scroll;
+  height: 480px;
+  overflow-x: hidden;
+}
+
+.second  {
+  width: 26.5vw;
+}
+
+.card.flex-grow-1.position-relative.overflow-hidden {
+  min-width: -webkit-fill-available;
+}
+
+
+.mileRenge {
+  width: inherit
+}
+
+
+.h-63 {
+  height: 63vh;
+}
+
+.dataTableList .datatable-scroll {
+   // overflow-y: scroll;
+   height: 59vh;
+   // width: 1055px !important;
+}
+
+.dataTableList  {
+  margin-bottom: -0.8rem !important;
+}
+
+.custom_select {
+  border: none;
+  border-bottom : 1px solid gray;
+}
+
+.p-15 {
+  padding: 15px;
+}

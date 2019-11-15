@@ -1,0 +1,223 @@
+<!-- `.clients-wrapper` fills all available space of container -->
+<div class="clients-wrapper p-1" [ngClass]="{'clients-sidebox-open': sideboxOpened}">
+
+  <!-- `.clients-content` fills all available space of `clients-wrapper` -->
+  <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-content clients-scroll">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between ui-bordered px-3 pt-3 mb-4">      
+        
+        <form #fuzzyJobsReply="ngForm" (ngSubmit)="onFuzzyJobReplySearch(fuzzyJobsReply.value)">
+            <div class="input-group" style="max-width: 150px;">
+                <input type="text" class="form-control mb-3" placeholder="Search by Jobs " [(ngModel)]="fuzzyInput" name="fuzzyInput" >
+               
+              </div>      
+        </form>
+
+        <div class="ng-autocomplete mb-3">
+            <ng-autocomplete [data]="locationData"
+            [(ngModel)]='defaultRequest.location'
+             [searchKeyword]="keyword" 
+             placeHolder='Search by City'
+             [isLoading] = isLoading
+             (selected)='selectLocation($event)'
+             (inputChanged)='onChangeSearch($event)' 
+             (inputFocused)='onFocused($event)'
+              [itemTemplate]="itemTemplate" 
+              [debounceTime]=500 
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+    
+            <ng-template #itemTemplate let-item>
+              <span [innerHTML]="item.cityName"></span>, <span [innerHTML]="item.zip"></span><br>
+              <span [innerHTML]="item.countryCode"></span>
+            </ng-template>
+    
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+  
+        <input class="form-control mb-3" style="max-width: 115px;" placeholder="From Date" name="dp" ngbDatepicker
+          (dateSelect)="onFromDateSelect($event)" [displayMonths]="displayMonths"
+          [navigation]="navigation" [disabled]="disabled" #d1="ngbDatepicker" (click)="d1.toggle()" [(ngModel)]='baseSearchRequest.fromDate'>
+  
+        <input class="form-control mb-3" style="max-width: 115px;" placeholder="To Date" name="dp" ngbDatepicker
+           [displayMonths]="displayMonths" (dateSelect)="onToDateSelect($event)" [minDate] = 'baseSearchRequest.fromDate'
+          [navigation]="navigation" [disabled]="disabled" #d2="ngbDatepicker" (click)="d2.toggle()" [(ngModel)]='baseSearchRequest.toDate'>
+  
+         
+        <ss-multiselect-dropdown name="multiselect" [texts]="ssDropDownTexts" [settings]="ssDropDownSettings"
+          [options]="ssDropDownOptions" [(ngModel)]="ssDropDownModel" (ngModelChange)="ssDropDownModelChanged($event)">
+        </ss-multiselect-dropdown>
+        <div>
+              <button type="button" class="btn btn-outline-primary mb-3 ml-3" (click)="resetAdReplies()"><span
+                class="ion ion-md-refresh"></span>&nbsp;
+              Reset Filters</button>
+        </div>  
+      </div>
+      <!-- / Header --> 
+
+    <!-- Clients list -->
+    <div class="table-responsive ui-bordered">
+        <table class="clients-table table table-hover m-0">
+          <tbody>
+            <!-- <tr>
+              <th>Ad Title</th>
+              <th>Company Name</th>
+              <th>Contact Name</th>
+              <th>Location</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Required Service</th>
+              <th>Optional Service</th>
+              <th class="h-align-middle">Number of replies</th>
+            </tr> -->
+  
+            <tr *ngFor="let client of clientsData" [ngClass]="{'bg-light': selected === client && sideboxOpened}"
+              (click)="selectClient(client)">
+  
+              <td class="">
+                  <div class="text-muted small mb-2"></div>
+                  <ngx-avatar name= "{{client.fromPartnerCompanyName | avatarText}}"></ngx-avatar>
+              </td>
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2" *ngIf="client.title">Ad Title</div>
+                {{client.title}}
+              </td>
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Company</div>
+                {{client.fromPartnerCompanyName}}
+              </td>
+            <!--   <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Contact Name</div>
+                {{client.contactFirstName}} {{client.contactLastName}}
+              </td>
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Location</div>
+                {{client.locationAddress1}}
+              </td> -->
+               <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Address</div>                  
+                  <div *ngIf="client.fromPartnerState">{{client.fromPartnerCity}}, {{client.fromPartnerState}}</div>
+              </td>
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Distance</div>                  
+                  <div *ngIf="client.fromPartnerState">{{client.fromPartnerDistanceFromMe | number}} miles</div>
+              </td>
+
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Message</div>   
+                  <div *ngIf="client.notes">{{client.notes}}</div>
+                  <div *ngIf="!client.notes || client.notes == ''" class="text-lighter">No messages available</div>
+              </td>
+             <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Application Date</div>
+                  <div *ngIf="client.notes">{{client.applicationDate}}</div>
+                  <div *ngIf="!client.notes" class="text-lighter">-NA-</div>
+              </td>
+              <!--  <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">End Date</div>
+                {{client.endDate}}
+              </td> -->
+              <!-- <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Required Services</div>
+                  demoA , demoB, demoC...
+              </td>
+              <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Optional Services</div>
+                  demoX , demoY...
+              </td> -->
+              <!-- <td class="align-middle py-3">
+                  <div class="text-muted small mb-2">Replies</div>
+                5
+              </td> -->
+              <td class="align-middle py-3">
+                  <span class="badge badge-success" *ngIf="client.status === 1">Accepted</span>
+                  <span class="badge badge-warning" *ngIf="client.status === 2">Not Accepted</span>
+              </td>
+  
+            </tr>
+  
+          </tbody>
+        </table>
+      </div>
+      <!-- / Clients list -->
+      <div>
+          <app-custom-pagination (pageEvent)="pageChanged($event)" [collectionSize]= 'collectionSize' [page]="1" [pageSize]="10" ></app-custom-pagination>
+      </div>
+  </div><!-- / .clients-content -->
+
+  
+
+  <!-- Clients sidebox -->
+  <div class="clients-sidebox">
+    <a (click)="closeSidebox()" href="javascript:void(0)" class="clients-sidebox-close text-muted text-xlarge font-weight-light">&times;</a>
+
+    <div *ngIf="selected" [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-scroll-secondary container-p-y">
+
+      <!-- Client info -->
+      <div class="text-center p-3">
+          <div class="sideboxlogo mb-3"> <ngx-avatar name= "{{selected.fromPartnerCompanyName | avatarText}}"></ngx-avatar></div>
+          <h5 class="mb-1"><a href="javascript:void(0)" class="text-dark">{{selected.jobName}}</a></h5>
+          <address class="small mb-4">
+              <span *ngIf='selected.fromPartnerCompanyName'>Advertised by <a href="javascript:void(0)">{{selected.fromPartnerCompanyName}}</a>.<br> </span>
+              <span *ngIf='selected.fromPartnerFirstName'>Contact Person - {{selected.fromPartnerFirstName}} {{selected.fromPartnerLastName}}<br></span>
+              {{selected.displayLocationAddress1}}<br>
+              {{selected.fromPartnerCity}}, {{selected.fromPartnerState}}<br>
+              {{selected.fromPartnerCountry}}, {{selected.displayLocationZip}}<br>
+              Latitude - {{selected.fromPartnerLatitude}} , Longitude - {{selected.fromPartnerLongitude}}
+              </address>
+         
+        </div>
+      <!-- / Client info -->
+
+      <hr class="border-light m-0">
+
+      <!-- optional service -->
+      <div class="p-3">
+          <h6 class="mb-3">Optional Services</h6>  
+          <!-- <div *ngIf="selected?.optionalServices || selected?.optionalServices.length > 0">
+            <div *ngFor="let optionalService of selected?.optionalServices; let i = index" class=""
+              [ngClass]="{'mb-1': i !== (selected?.optionalServices.length - 1)}">
+              {{optionalService}}              
+            </div>
+          </div> -->
+          <!-- <div *ngIf="selected?.optionalServices || selected?.optionalServices.length === 0" class="text-lighter my-4">No optioal service</div> -->
+        </div>
+      <!-- / optional service -->
+
+      <!-- required Services  -->
+      <div class="p-3">
+          <h6 class="mb-3">Required Services</h6>  
+          <!-- <div *ngIf="selected?.requiredServices || selected?.requiredServices.length > 0">
+            <div *ngFor="let requiredService of selected?.requiredServices; let i = index" class=""
+              [ngClass]="{'mb-1': i !== (selected?.requiredServices.length - 1)}">
+              {{requiredService}}              
+            </div>
+          </div>
+          <div *ngIf="selected?.requiredServices || selected?.requiredServices.length === 0" class="text-lighter my-4">No optioal service</div> -->
+        </div>
+      <!-- / requiredServices  -->
+
+      <!-- Messages -->
+      <div class="p-4">
+        <h6 class="mb-3">Message</h6>
+
+        <!-- <div *ngIf="selected.messages">
+          <div *ngFor="let message of selected.messages; let i = index" class="ui-bordered py-2 px-3" [ngClass]="{'mb-3': i !== (selected.messages.length - 1)}">
+            {{message.content}}
+            <div class="text-muted small mt-1">{{message.text}} &nbsp; | &nbsp; <a href="javascript:void(0)" class="text-muted">Reply</a></div>
+          </div>
+        </div> -->
+        <div *ngIf="selected.notes" class="">{{selected.notes}}</div>
+        <div *ngIf="!selected.notes" class="text-lighter my-4">No messages</div>
+      </div>
+      <!-- / Messages -->
+
+    </div>
+  </div>
+  <!-- / Clients sidebox -->
+
+</div>
+<!-- / Clients wrapper -->

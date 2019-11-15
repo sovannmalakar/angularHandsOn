@@ -1,0 +1,12 @@
+<div *ngIf = 'collectionSize > 0' class="demo-vertical-spacing-sm pagination-containar">
+    <ngb-pagination (pageChange)="onPageChange($event)" [collectionSize]="collectionSize" [page]="page" [pageSize]="pageSize" [maxSize]=8  size="sm"></ngb-pagination>
+  </div>
+
+  <div *ngIf = 'collectionSize === 0' class="demo-vertical-spacing-sm">    
+      
+            <div class="card">
+              <div class="card-body">
+                  <p>Sorry , No Data Available for the selected filter.</p>
+              </div>
+            </div>
+    </div>

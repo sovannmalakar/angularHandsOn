@@ -1,0 +1,68 @@
+import { ProductModel } from './product.model';
+import { MembershipModel } from './membership.model';
+import { CertificationModel } from './certification.model';
+
+
+
+export class PartnerProfileModel {
+    partnerGuid: string;
+    partnerTypeId: number;
+    partnerContactFName: string;
+    partnerContactLName: string;
+    partnerContactPhone: string;
+    partnerContactEmail: string;
+    partnerAddedDate: string;
+    partnerBillName: string;
+    partnerBillPhone: string;
+    partnerBillAddress1: string;
+    partnerBillAddress2: string;
+    partnerBillCity: string;
+    partnerBillState: string;
+    partnerBillZip: string;
+    partnerBillCountry: string;
+    partnerBillFax: string;
+    partnerPaymentMethod: string;
+    active: boolean;
+    partnerNum: string;
+    partnerBillEmail: string;
+    quickbooksId: string;
+    partnerBillLine1: string;
+    partnerBillLine2: string;
+    partnerBillLine3: string;
+    partnerLocationDisplayName: string;
+    partnerLocationAddress1: string;
+    partnerLocationAddress2: string;
+    partnerLocationCity: string;
+    partnerLocationState: string;
+    partnerLocationZip: string;
+    partnerLocationCountry: string;
+    latitude?: number;
+    longitude?: number;
+    notes: string;
+    displayPartnerLocation?: boolean;
+    stenographCustomerId?: number;
+    partnerContractStartDate: string;
+    cCLastFour: string;
+    cCExpDate?: string;
+    cCBillingZip: string;
+    createdDate: string;
+    createdBy: string;
+    modifiedDate: string;
+    modifiedBy: string;
+    userGuid: string;
+    userName: string;
+    userFirstName: string;
+    userLastName: string;
+    userType: number;
+    notificationForJobsWithInMilies: number;
+    productGuids: string[];
+    products: ProductModel[];
+    certifications: CertificationModel[];
+    memberships: MembershipModel[];
+    sendNotification: boolean;
+    notificationThroughEmail: boolean;
+    notificationThroughSms: boolean;
+    notificationThroughAppNotification: boolean;
+    onSiteAvailability: boolean;
+    remoteSiteAvailability: boolean;
+}

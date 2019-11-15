@@ -1,0 +1,14 @@
+<div>
+
+
+  <div _ngcontent-c15="" class="btn-group-xs mb-2">
+      <button _ngcontent-c15="" class="cursor border border-left-3 btn-primary btn-success " type="button" (click)="toggleView()">List</button>
+      <button _ngcontent-c15="" class="cursor border border-left-3 btn-secondary " type="button" (click)="toggleView()">Grid</button>
+  </div>
+<div *ngIf="isTable">
+  <app-reporter-table-view></app-reporter-table-view>
+</div>
+<div *ngIf="!isTable">
+  <app-reporter-list-view></app-reporter-list-view>
+</div>
+  </div>

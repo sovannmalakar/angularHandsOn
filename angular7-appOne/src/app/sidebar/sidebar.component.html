@@ -1,0 +1,42 @@
+
+  <ng-container *ngIf="show">
+    <div class="bg-dark border-right" id="sidebar-wrapper">
+        
+      <div class="sidebar-heading">
+       
+        <span class="sidebar-heading-icon">
+            <img width="40" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+        </span>
+        <a [routerLink]="['/']" class="sidebar-heading-text">Sample</a>
+      </div>
+      <div class="list-group list-group-flush" >
+          <a [routerLink]="['/user']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:false}" class="list-group-item list-group-item-action" ><i class="fas fa-user"></i>User</a>
+          
+          <a [routerLink]="['/reporter']" [routerLinkActive]="['active']" class="list-group-item list-group-item-action"><i class="reporter_img">Reporter</i></a>
+          
+          <a href="#second" class="list-group-item list-group-item-action" data-toggle="collapse" [routerLinkActive]="['active']">Administration<i class="fa fa-caret-down"></i></a>
+          <div id="second" class="collapse">              
+              <a [routerLink]="['/menu']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:false}" class="list-group-item list-group-item-action">Menu</a>
+              <a [routerLink]="['/role']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:false}" class="list-group-item list-group-item-action">Role</a>
+          </div>
+          
+          <a href="#third" class="list-group-item list-group-item-action" data-toggle="collapse">
+            Third Item 
+            <i class="fa fa-caret-down"></i>
+          </a>
+          <div id="third" class="collapse">
+              <a href="#thirdsub" class="list-group-item list-group-item-action"  data-toggle="collapse">Subitem 1 <i class="fa fa-caret-down"></i></a>
+              <div id="thirdsub" class="collapse">
+                  <a href="#" class="list-group-item list-group-item-action">Sub Menu Subitem 1</a>
+                  <a href="#" class="list-group-item list-group-item-action">Sub Menu Subitem 2</a>
+              </div>
+              <a href="#" class="list-group-item list-group-item-action">Subitem 2</a>
+              <a href="#" class="list-group-item list-group-item-action">Subitem 3</a>
+          </div>
+          
+          <a href="#" class="list-group-item list-group-item-action">Fourth item</a>
+        </div>
+        
+    </div>
+  </ng-container>
+    

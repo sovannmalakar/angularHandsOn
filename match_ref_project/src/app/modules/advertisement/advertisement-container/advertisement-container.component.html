@@ -1,0 +1,206 @@
+<div class="clients-wrapper" [ngClass]="{'clients-sidebox-open': sideboxOpened}">
+
+    <!-- `.clients-content` fills all available space of `clients-wrapper` -->
+    <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-content clients-scroll">
+
+        <div class="d-flex flex-wrap justify-content-between ui-bordered px-3 pt-3 mb-4">
+
+            <form #fuzzyAd="ngForm" (ngSubmit)="onFuzzyAdSearch(fuzzyAd.value)">
+                <div class="input-group" style="max-width: 150px;">
+                    <input type="text" class="form-control mb-3" placeholder="Search by Ads " [(ngModel)]="fuzzyInput" name="fuzzyInput">
+
+                </div>
+            </form>
+
+            <input class="form-control mb-3" style="max-width: 150px;" placeholder="From Date" name="dp" ngbDatepicker (dateSelect)="onFromDateSelect($event)" [displayMonths]="displayMonths" [navigation]="navigation" [disabled]="disabled" #d1="ngbDatepicker" (click)="d1.toggle()"
+                [(ngModel)]='baseSearchRequest.fromDate'>
+
+            <input class="form-control mb-3" style="max-width: 150px;" placeholder="To Date" name="dp" ngbDatepicker [displayMonths]="displayMonths" (dateSelect)="onToDateSelect($event)" [minDate]='baseSearchRequest.fromDate' [navigation]="navigation" [disabled]="disabled"
+                #d2="ngbDatepicker" (click)="d2.toggle()" [(ngModel)]='baseSearchRequest.toDate'>
+
+
+            <ss-multiselect-dropdown name="multiselect" [texts]="ssDropDownTexts" [settings]="ssDropDownSettings" [options]="ssDropDownOptions" [(ngModel)]="ssDropDownModel" (ngModelChange)="ssDropDownModelChanged($event)">
+            </ss-multiselect-dropdown>
+            <div>
+                <button type="button" class="btn btn-outline-primary mb-3 ml-3" (click)="reseAds()"><span
+                class="ion ion-md-refresh"></span>&nbsp;
+              Reset Filters</button>
+            </div>
+            <div>
+                <!-- (click)="addAdvertisement()" -->
+                <button type="button" (click)="open(defaultModal, { windowClass: 'modal-lg animate' })" class="btn btn-outline-primary mb-3 ml-3 cursor"><span
+                class="ion ion-md-add"></span>&nbsp; Add Advertisement</button>
+            </div>
+
+        </div>
+        <!-- / Header -->
+
+        <!-- Add Ad Modal template -->
+        <ng-template #defaultModal let-c="close" let-d="dismiss" class="addadmodal">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Add an <span class="font-weight-light">Advertisement</span><br>
+
+                </h5>
+                <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+            </div>
+            <div class="modal-body add-advertisement-modal-body">
+                <app-add-advertisement (refreshParent)='refreshParent()' [addAdvertisement]="addAdvertisement"></app-add-advertisement>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cursor" (click)="c('Close click')">Close</button>
+                <button type="button" class="btn btn-primary cursor" (click)="addAdvertisementNotifier()">Add</button>
+            </div>
+        </ng-template>
+        <!-- Add Ad Modal template -->
+        <!-- Clients list -->
+        <div class="table-responsive ui-bordered">
+            <table class="clients-table table table-hover m-0">
+                <tbody>
+                    <!-- <tr>
+            <th>Ad Title</th>
+            <th>Company Name</th>
+            <th>Contact Name</th>
+            <th>Location</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Required Service</th>
+            <th>Optional Service</th>
+            <th class="h-align-middle">Number of replies</th>
+          </tr> -->
+
+                    <tr *ngFor="let client of clientsData" [ngClass]="{'bg-light': selected === client && sideboxOpened}" (click)="selectClient(client)">
+                        <td class="align-middle py-3" (click)="selectClient(client)">
+                            <div class="text-muted small mb-2"></div>
+                            <ngx-avatar name="{{client.jobName | avatarText}}"></ngx-avatar>
+                        </td>
+
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Ad Title</div>
+                            {{client.jobName}}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Company</div>
+                            {{client.partnerCompanyName}}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Contact Name</div>
+                            {{client.contactFirstName}} {{client.contactLastName}}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Location</div>
+                            {{client.locationAddress1}}
+                        </td>
+                        <!-- <td class="align-middle py-3">
+                <div>{{client.locationState}}</div>
+                <div *ngIf="client.locationCity">{{client.locationCity}}</div>
+            </td>
+            <td class="align-middle py-3">
+              {{client.locationZip}}
+            </td> -->
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Start Date</div>
+                            {{client.startDate | date:'mediumDate' }}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">End Date</div>
+                            {{client.endDate | date:'mediumDate' }}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Required </div>
+                            {{client.requiredServices?.length || '-None-' }}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Optional </div>
+                            {{client.optionalServices?.length || '-None-' }}
+                        </td>
+                        <td class="align-middle py-3">
+                            <div class="text-muted small mb-2">Replies</div>
+                            {{client.replies?.length || '0' }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- / Clients list -->
+        <div>
+            <app-custom-pagination (pageEvent)="pageChanged($event)" [collectionSize]='collectionSize' [page]="1" [pageSize]="10"></app-custom-pagination>
+        </div>
+    </div>
+    <!-- / .clients-content -->
+
+    <!-- Clients sidebox -->
+    <div class="clients-sidebox">
+        <a (click)="closeSidebox()" href="javascript:void(0)" class="clients-sidebox-close text-muted text-xlarge font-weight-light">&times;</a>
+
+        <div *ngIf="selected" [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-scroll-secondary container-p-y">
+
+            <!-- Client info -->
+            <div class="text-center p-4">
+                <div class="sideboxlogo mb-3">
+                    <ngx-avatar name="{{selected.jobName | avatarText}}"></ngx-avatar>
+                </div>
+                <h5 class="mb-1"><a href="javascript:void(0)" class="text-dark">{{selected.jobName}}</a></h5>
+
+                <address class="small mb-4">
+          Advertised by <a href="javascript:void(0)">{{selected.partnerCompanyName}}</a>.<br>
+          Contact Person - {{selected.contactFirstName}} <span
+            *ngIf='selected.contactLastName'>{{selected.contactLastName}}</span><br>
+          <span *ngIf='selected.phone'>Contact at - {{selected.phone}}<br></span>
+          {{selected.locationAddress1}}<br>
+          {{selected.locationCity}}, {{selected.locationState}}<br>
+          {{selected.locationCountry}}, {{selected.locationZip}}
+        </address>
+
+
+            </div>
+            <!-- / Client info -->
+
+            <hr class="border-light m-0">
+
+            <!-- optional service -->
+            <div class="p-3">
+                <h6 class="mb-3">Optional Services</h6>
+                <div *ngIf="selected.optionalServices?.length > 0">
+                    <ul *ngFor="let optionalService of selected.optionalServices; let i = index" class="list-group" [ngClass]="{'mb-1': i !== (selected.optionalServices.length - 1)}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{optionalService.productName}}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="!selected.optionalServices || selected.optionalServices?.length === 0" class="text-lighter my-4">No optioal service</div>
+            </div>
+            <!-- / optional service -->
+
+            <!-- required Services  -->
+            <div class="p-3">
+                <h6 class="mb-3">Required Services</h6>
+                <div *ngIf="selected.requiredServices?.length > 0">
+                    <ul *ngFor="let requiredService of selected.requiredServices; let i = index" class="list-group" [ngClass]="{'mb-1': i !== (selected.requiredServices.length - 1)}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{requiredService.productName}}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="!selected.requiredServices || selected.requiredServices?.length === 0" class="text-lighter my-4">No Required service</div>
+            </div>
+            <!-- / requiredServices  -->
+
+            <!-- Notes -->
+            <div class="p-3">
+                <h6 class="mb-3">Notes</h6>
+
+                <div *ngIf="selected.notes">
+                    {{selected.notes}}
+                </div>
+                <div *ngIf="!selected.notes" class="text-lighter my-4">No Notes</div>
+            </div>
+
+        </div>
+    </div>
+    <!-- / Clients sidebox -->
+
+</div>
+<!-- / Clients wrapper -->

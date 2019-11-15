@@ -1,0 +1,238 @@
+<!-- `.clients-wrapper` fills all available space of container -->
+<div class="clients-wrapper" [ngClass]="{'clients-sidebox-open': sideboxOpened}">
+
+    <!-- `.clients-content` fills all available space of `clients-wrapper` -->
+    <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-content clients-scroll">
+      
+      <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between ui-bordered px-3 pt-3 mb-4">      
+        
+        <form #fuzzyJobs="ngForm" (ngSubmit)="onFuzzyJobSearch(fuzzyJobs.value)">
+            <div class="input-group" style="max-width: 150px;">
+                <input type="text" class="form-control mb-3" placeholder="Search by Jobs " [(ngModel)]="fuzzyInput" name="fuzzyInput" >
+               
+              </div>      
+        </form>
+
+        <div class="ng-autocomplete mb-3">
+            <ng-autocomplete [data]="locationData"
+            [(ngModel)]='defaultRequest.location'
+             [searchKeyword]="keyword" 
+             placeHolder='Search by City'
+             [isLoading] = isLoading
+             (selected)='selectLocation($event)'
+             (inputChanged)='onChangeSearch($event)' 
+             (inputFocused)='onFocused($event)'
+              [itemTemplate]="itemTemplate" 
+              [debounceTime]=500 
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+    
+            <ng-template #itemTemplate let-item>
+              <span [innerHTML]="item.cityName"></span>, <span [innerHTML]="item.zip"></span><br>
+              <span [innerHTML]="item.countryCode"></span>
+            </ng-template>
+    
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+  
+        <input class="form-control mb-3" style="max-width: 115px;" placeholder="From Date" name="dp" ngbDatepicker
+          (dateSelect)="onFromDateSelect($event)" [displayMonths]="displayMonths"
+          [navigation]="navigation" [disabled]="disabled" #d1="ngbDatepicker" (click)="d1.toggle()" [(ngModel)]='baseSearchRequest.fromDate'>
+  
+        <input class="form-control mb-3" style="max-width: 115px;" placeholder="To Date" name="dp" ngbDatepicker
+           [displayMonths]="displayMonths" (dateSelect)="onToDateSelect($event)" [minDate] = 'baseSearchRequest.fromDate'
+          [navigation]="navigation" [disabled]="disabled" #d2="ngbDatepicker" (click)="d2.toggle()" [(ngModel)]='baseSearchRequest.toDate'>
+  
+         
+        <ss-multiselect-dropdown name="multiselect" [texts]="ssDropDownTexts" [settings]="ssDropDownSettings"
+          [options]="ssDropDownOptions" [(ngModel)]="ssDropDownModel" (ngModelChange)="ssDropDownModelChanged($event)">
+        </ss-multiselect-dropdown>
+        <div>
+              <button type="button" class="btn btn-outline-primary mb-3 ml-3" (click)="reseAds()"><span
+                class="ion ion-md-refresh"></span>&nbsp;
+              Reset Filters</button>
+        </div>  
+      </div>
+      <!-- / Header -->
+  
+      <!-- Clients list -->
+      <div class="table-responsive ui-bordered">
+        <table class="clients-table table table-hover m-0">
+          <tbody>
+  
+            <tr *ngFor="let client of clientsData" [ngClass]="{'bg-light': selected === client && sideboxOpened}">
+                
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2"></div>
+                    <ngx-avatar name= "{{client.jobName | avatarText}}"></ngx-avatar>
+                  </td>
+
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Job Title</div>
+                  {{client.jobName}}
+                </td>
+  
+                <!-- <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Name</div>
+                    {{client.orderingContactFirstName}} {{client.orderingContactLastName}}
+                 
+                </td> -->
+  
+                <!-- <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Company Name</div>
+                    {{client.orderingPartnerCompanyName}}
+                  
+                </td> -->
+
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Starts From</div>
+                    {{client.startDate | date}}
+                  
+                </td>
+
+                
+  
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Location</div>
+                  {{client.displayLocationAddress1}} 
+                </td>
+  
+                
+    
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">State / City</div>
+                  {{client.displayLocationState}} / {{client.displayLocationCity}}
+                </td>
+
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Zip Code</div>
+                  {{client.displayLocationZip}}
+                </td>
+  
+                <td class="align-middle h-align-middle py-3" (click)="selectClient(client)" *ngIf="client.proximityInMiles">
+                    <div class="text-muted small mb-2">Distance</div>
+                  {{client.proximityInMiles}} mile
+                </td>
+                
+                <td class="align-middle py-3" (click)="selectClient(client)">
+                    <div class="text-muted small mb-2">Status</div>
+                  <span *ngIf="client.status">
+                    <span class="badge badge-success" *ngIf="client.status === 1">Active</span>
+                    <span class="badge badge-info" *ngIf="client.status === 2">In progress</span>
+                    <span class="badge badge-warning" *ngIf="client.status === 3">Pending</span>
+                  </span>
+                  
+                </td>
+                <td class="align-middle h-align-middle py-3">
+                    <div class="text-muted small mb-2"></div>
+                  <button  type="button" class="btn btn-round btn-sm btn-outline-success cursor"
+                  (click)="openModalForReply(defaultModal, { windowClass: 'modal-sm animate', data: client } )">Send Message</button>
+                  <button  type="button" class="btn btn-round btn-sm btn-outline-primary cursor m-3"
+                  (click)="confirmToConnect(confirmationModal, { windowClass: 'modal-sm animate', data: client } )">Change Status</button> </td>
+            </tr>
+  
+          </tbody>
+        </table>
+      
+      <ng-template #defaultModal let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <span class="font-weight-light">Reply to the job - </span> {{modalTitle}}<br>
+              
+            </h5>
+            <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col">
+                <label class="form-label">Message</label>
+                <textarea cols="4" type="text" class="form-control" placeholder="Write a message" [(ngModel)]="reply.message"><textarea></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-primary" (click)="submitReply()">OK</button>
+          </div>
+        </ng-template>
+
+        <ng-template #confirmationModal let-c="close" let-d="dismiss">
+            <div class="modal-header">
+    
+              <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col">
+                  <h5 class="modal-title">
+                    <span class="font-weight-light">Do you really want to change the status - </span> {{modalTitle}} ? <br>
+    
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="c('Close click')">May be later</button>
+              <button type="button" class="btn btn-primary cursor" (click)="submitChangedStatus()">Yes, Change</button>
+            </div>
+          </ng-template>
+      
+      <!-- / Clients list -->
+
+      
+  
+    </div><!-- / .clients-content -->
+    <div>
+        <app-custom-pagination (pageEvent)="pageChanged($event)" [collectionSize]= 'collectionSize' [page]="1" [pageSize]="10" ></app-custom-pagination>
+    </div>
+    <!-- Clients sidebox -->
+    <div class="clients-sidebox">
+      <a (click)="closeSidebox()" href="javascript:void(0)" class="clients-sidebox-close text-muted text-xlarge font-weight-light">&times;</a>
+  
+      <div *ngIf="selected" [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="clients-scroll-secondary container-p-y">
+  
+        <!-- Client info -->
+        <div class="text-center p-3">
+            <div class="sideboxlogo mb-3"> <ngx-avatar name= "{{selected.jobName | avatarText}}"></ngx-avatar></div>
+          <h5 class="mb-1"><a href="javascript:void(0)" class="text-dark">{{selected.jobName}}</a></h5>
+          <address class="small mb-4">
+              <span *ngIf='selected.advertiserPartnerCompanyName'>Advertised by <a href="javascript:void(0)">{{selected.advertiserPartnerCompanyName}}</a>.<br> </span>
+              <span *ngIf='selected.advertiserContactFirstName'>Contact Person - {{selected.advertiserContactFirstName}} {{selected.advertiserContactLastName}}<br></span>
+              {{selected.displayLocationAddress1}}<br>
+              {{selected.displayLocationCity}}, {{selected.displayLocationState}}<br>
+              {{selected.displayLocationCountry}}, {{selected.displayLocationZip}}<br>
+              Latitude - {{selected.latitude}} , Longitude - {{selected.longitude}}
+              </address>
+         
+        </div>
+        <!-- / Client info -->
+  
+        <hr class="border-light m-0">
+  
+        <!-- <div class="p-3">
+            <h6 class="mb-3">Company Name</h6>
+          
+            <div  class="text-lighter my-4">{{selected.orderingPartnerCompanyName}}</div>
+          </div> -->
+          <!-- / Company Name -->
+    
+          <!-- Notes -->
+          <div class="p-3">
+            <h6 class="mb-3">Notes</h6>
+    
+            <div *ngIf="selected.notes">
+              {{selected.notes}}
+            </div>
+            <div *ngIf="!selected.notes" class="text-lighter my-4">No Notes</div>
+          </div>
+  
+      </div>
+    </div>
+    <!-- / Clients sidebox -->
+  
+  </div>
+  <!-- / Clients wrapper -->
+  

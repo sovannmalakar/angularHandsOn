@@ -1,0 +1,119 @@
+
+  <form  #userregister="ngForm" (ngSubmit)="onRegister()" ngNativeValidate >
+      <h5 class="mb-3 font-weight-bolder">Personal Information</h5>
+      <div class="form-row">
+          <div class="form-group col-md-4">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name='email' placeholder="Email" [(ngModel)]='userInfo.partnerContactEmail' autofocus required>
+              </div>
+        <div class="form-group col-md-4">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name='pass' placeholder="Password" [(ngModel)]="userInfo.password" required>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name='confirmpass' placeholder="Re-enter Password" [(ngModel)]="reEnterpassword" required>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-4">
+            <label class="form-label">Contact First Name</label>
+            <input type="text" class="form-control" name='cfname' placeholder="First Name" [(ngModel)]='userInfo.partnerContactFName' required>
+          </div>
+          <div class="form-group col-md-4">
+            <label class="form-label">Contact Last Name</label>
+            <input type="test" class="form-control" name='clname' placeholder="Last Name" [(ngModel)]='userInfo.partnerContactLName' required>
+          </div>
+          <div class="form-group col-md-4">
+              <label class="form-label">Contact Phone Number</label>
+              <input type="text" class="form-control" name='cphno' placeholder="Phone No" [(ngModel)]='userInfo.partnerContactPhone' required>
+            </div>
+        </div>
+        <hr class="border-light my-4">
+        <h5 class=" mb-3 font-weight-bolder">Partner Information</h5>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-control" name='billname' placeholder="Company Name" [(ngModel)]='userInfo.partnerBillName' required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Company Phone</label>
+              <input type="text" class="form-control" name='billphone' placeholder="Company Phone" [(ngModel)]='userInfo.partnerBillPhone' required>
+            </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label">Billing Address 1</label>
+                <input type="text" class="form-control" name='billaddress' placeholder="1023 Main Road" [(ngModel)]='userInfo.partnerBillAddress1' required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label">Billing Address 2</label>
+                <input type="text" class="form-control" name='billaddress2' placeholder="Time Square" [(ngModel)]='userInfo.partnerBillAddress2' >
+              </div>
+            </div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label class="form-label">City</label>
+          <!-- <input placeholder="search for location" autocorrect="off" name='billcity' autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [(ngModel)] = 'userInfo.partnerBillCity'> -->
+          <input  type="text" placeholder="City Name" name='billcity' class="form-control" [(ngModel)] = 'userInfo.partnerBillCity' required>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="form-label">State</label>
+        <ng-select  [items]="selectStates"   class="form-control" [multiple]="false" bindLabel="name" bindValue="abbreviation"
+        [(ngModel)] = 'userInfo.partnerBillState' name='billState' required>
+        </ng-select>
+        </div>
+        <div class="form-group col-md-3">
+          <label class="form-label">Country</label>
+          <!-- <input type="text" placeholder="Country" name='billcountry' class="form-control" [(ngModel)] = 'userInfo.partnerBillCountry'> -->
+          <ng-select  [items]="selectCounntries"   class="form-control" [multiple]="false" bindLabel="label" bindValue="value"
+          [(ngModel)] = 'userInfo.partnerBillCountry' name='billCountry' required>
+          </ng-select>
+        </div>
+        <div class="form-group col-md-3">
+          <label class="form-label">Zip</label>
+          <input placeholder="Zip Code" class="form-control" name='billzip' type='text' [(ngModel)] = 'userInfo.partnerBillZip' required>
+      </div>
+      </div>
+      <div *ngIf='userTypeId !== global.PartnerTypes.LawFirm'> 
+        <hr class="border-light my-2">
+      <h5 class="mb-3 font-weight-bolder">Services Offered</h5>
+      <div class="row mg-bottom" *ngFor="let row of newArray ;  let i = index">
+          <ng-container *ngFor="let item of row?.items;  let j = index">
+            <label class="col-xs-12 col-md-4">
+                <input type="checkbox"  id= tag.productGuids class='custom-checkbox'
+              name="tagOptions" (change) = 'changeCheckbox(item , i , j)' required/>	<span class='ml-4'>{{item.productName}}</span>
+            </label>
+          </ng-container>
+        </div>
+     
+      
+        <hr class="border-light my-2">
+        <h5 class="mb-3 font-weight-bolder">Certification</h5>
+        <div class="row mg-bottom" *ngFor="let row of newCertificationArray ;  let i = index">
+            <ng-container *ngFor="let item of row?.items;  let j = index">
+              <label class="col-xs-12 col-md-6">
+                  <input type="checkbox"  id= tag.certificationGuid class='custom-checkbox'
+                name="tagOptions" (change) = 'changeCertificationCheckbox(item , i , j)' required/>	<span class='ml-4'>{{item.certificationName}}</span>
+              </label>
+            </ng-container>
+          </div>
+          <hr class="border-light my-2">
+        <h5 class="mb-3 font-weight-bolder">Membership</h5>
+        <div class="row mg-bottom" *ngFor="let row of newMembershipArray ;  let i = index">
+            <ng-container *ngFor="let item of row?.items;  let j = index">
+              <label class="col-xs-12 col-md-12">
+                  <input type="checkbox"  id= tag.membershipGuid class='custom-checkbox'
+                name="tagOptions" (change) = 'changemembershipCheckbox(item , i , j)' required/>	<span class='ml-4'>{{item.membershipName}}</span>
+              </label>
+            </ng-container>
+          </div>
+        </div>
+        <div class= 'fl-right'>
+            <button type="button" class="btn btn-default cursor" (click)="goToLanding()">Cancel</button>
+            <button  [ladda]="loading" (click)="onRegister()" data-style="expand-left" class="btn btn-primary cursor">Sign Up</button>
+            
+        </div>
+      
+      
+    </form>

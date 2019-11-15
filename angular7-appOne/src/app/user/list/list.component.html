@@ -1,0 +1,72 @@
+<div class="row mb-2">
+  <div class="col-md-12">
+    <a type="button" [routerLink]="['/user/create']" class="btn btn-primary float-right">Add</a>
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-md-12">  
+    <div class="card">
+      <div class="card-body">
+        <div class="row mb-2  border border-top-0 border-right-0 border-left-0">
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="searchFirstName" placeholder="First Name">
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="searchLastName" placeholder="Last Name">
+          </div>
+          <div class="form-group col-md-4">
+            <div class="row col-md-12 float-right">
+              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              <button type="button" class="btn btn-info">Reset</button>
+            </div>
+            <div class="row col-md-12 float-right mt-2">
+              <span class="float-right">
+                <a href="#advanceSearch" class="" data-toggle="collapse"
+                   (click)="changeText()">{{Text}}&nbsp;<i
+                    class="fa fa-caret-down"></i></a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2" id="advanceSearch" class="collapse">
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="searchEmail" placeholder="Email">
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive-sm">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+          </tr>
+          <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+          </tr>
+          <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

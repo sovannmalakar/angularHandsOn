@@ -1,0 +1,78 @@
+
+
+
+  <!-- Set `.contacts-col-view` or '.contacts-row-view' to control view mode -->
+  <div class="row" [ngClass]="'contacts-' + viewMode + '-view'">
+    <div *ngFor="let contact of contactsData" class="contacts-col col-12">
+  
+      <div class="card mb-4 cursor contact-card">
+        <div class="card-body" >
+          <div class="contact-content">
+            <div class="contact-content-about">
+              <div>
+                  <img [src]="contact.avatar" class="contact-content-img rounded-circle" alt="">
+                  <h5 class="contact-content-name mb-1"><a href="javascript:void(0)" class="text-dark">{{contact.contactFirstName}} {{contact.contactLastName}}</a></h5>
+                  <div class="contact-content-user text-muted small mb-2">Contact on {{contact.phone}}</div>
+                  <div class="small">
+                    <div *ngIf="contact.companyName">Company - {{contact.companyName}}</div>            
+                    <div *ngIf="contact.email">{{contact.email}}</div>
+                    <div *ngIf="contact.phone">{{contact.website}}</div>
+                  </div>
+              </div>
+              
+              <hr class="border-light">
+              <div>    
+                  <button type="button" class="btn btn-round btn-outline-danger cursor" (click)="confirmToConnect(confirmationModal, { windowClass: 'modal-sm animate', data: contact } )">Decline</button>
+                  &nbsp;&nbsp;<span class="text-lighter"> |</span> &nbsp;&nbsp;
+                <button type="button" class="btn btn-round btn-outline-success cursor" (click)="openModalForReply(defaultModal, { windowClass: 'modal-sm animate', data: contact } )">Accept</button>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+       
+          <ng-template #confirmationModal let-c="close" let-d="dismiss">
+              <div class="modal-header">
+      
+                <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-row">
+                  <div class="form-group col">
+                    <h5 class="modal-title">
+                      <span class="font-weight-light">Do you really want to Decline request form - </span> {{modalTitle}} ? <br>
+      
+                    </h5>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="c('Close click')">No</button>
+                <button type="button" class="btn btn-danger cursor" (click)="submitDisConnect()">Yes, Decline</button>
+              </div>
+            </ng-template>
+          <ng-template #defaultModal let-c="close" let-d="dismiss">
+            <div class="modal-header">
+    
+              <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col">
+                  <h5 class="modal-title">
+                    <span class="font-weight-light">Do you really want to Accept request from - </span> {{modalTitle}} ? <br>
+    
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="c('Close click')">No</button>
+              <button type="button" class="btn btn-success cursor" (click)="submitDisConnect()">Yes, Accept</button>
+            </div>
+          </ng-template>
+      </div>
+  
+    </div>
+  </div><!-- / .row -->
+  

@@ -1,0 +1,99 @@
+
+
+<div class="d-flex flex-wrap justify-content-between ui-bordered px-3 pt-3 mb-4">
+  <div>   
+    
+    <button type="button" class="btn btn-outline-primary mb-3 ml-3 cursor" (click)="goToMyConnectionRequests()"><span class="ion ion-ios-notifications"></span>&nbsp; My Connection Requests</button>
+  </div>
+  <form #fuzzyContact="ngForm" (ngSubmit)="onFuzzyContactSearch(fuzzyContact.value)">
+      <div class="input-group">
+          <input type="text" class="form-control mb-3" placeholder="Search..." [(ngModel)]="fuzzyInput" name="fuzzyInput" >
+          <span class="input-group-append">
+              <button class="btn btn-outline-danger" (click) = resetFuzzyContact() type="button">Reset</button>
+            </span>
+        </div>      
+  </form>
+</div>
+
+<!-- Set `.contacts-col-view` or '.contacts-row-view' to control view mode -->
+<div class="row" [ngClass]="'contacts-col-view'">
+  <div *ngFor="let contact of clientsData" class="contacts-col col-12">
+    <div class="card mb-4 cursor contact-card">
+      <div class="card-body" >
+        <div class="contact-content">
+          <div class="contact-content-about">
+            <div (click) = "goToCardDetail(contact)">
+                <div class="contact-card">
+                    <ngx-avatar  name= "{{contact.fullName | avatarText}}"></ngx-avatar>
+                </div>
+                
+                <h5 class="contact-content-name mb-1"><a href="javascript:void(0)" class="text-dark">{{contact.contactFirstName}} {{contact.contactLastName}}</a></h5>
+                <div class="contact-content-user text-muted small mb-2">Contact on {{contact.phone}}</div>
+                <div class="small">
+                  <div *ngIf="contact.companyName">Company - {{contact.companyName}}</div>            
+                  <div *ngIf="contact.email">{{contact.email}}</div>
+                  <div *ngIf="contact.phone">{{contact.website}}</div>
+                </div>
+            </div>
+            
+            <hr class="border-light">
+            <div>    
+                <button type="button" class="btn btn-round btn-outline-danger cursor" (click)="confirmToConnect(confirmationModal, { windowClass: 'modal-sm animate', data: contact } )">Disconnect</button>
+                &nbsp;&nbsp;<span class="text-lighter"> |</span> &nbsp;&nbsp;
+              <button type="button" class="btn btn-round btn-outline-success cursor" (click)="openModalForReply(defaultModal, { windowClass: 'modal-sm animate', data: contact } )">Send Message</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <ng-template #defaultModal let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <span class="font-weight-light">Send Message to - </span> {{modalTitle}}<br>
+  
+            </h5>
+            <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col">
+                <label class="form-label">Message</label>
+                <textarea cols="4" type="text" class="form-control" placeholder="Write a message"
+                  [(ngModel)]="reply.message"><textarea></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-primary" (click)="submitReply()">Send</button>
+          </div>
+        </ng-template>
+        <ng-template #confirmationModal let-c="close" let-d="dismiss">
+          <div class="modal-header">
+  
+            <button type="button" class="close" (click)="d('Cross click')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col">
+                <h5 class="modal-title">
+                  <span class="font-weight-light">Do you really want to Disconnect with - </span> {{modalTitle}} ? <br>
+  
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="c('Close click')">No</button>
+            <button type="button" class="btn btn-primary cursor" (click)="submitDisConnect()">Yes, Disconnect</button>
+          </div>
+        </ng-template>
+
+        
+    </div>
+  </div>
+</div><!-- / .row -->
+
+<div>
+    <app-custom-pagination (pageEvent)="pageChanged($event)" [collectionSize]= 'collectionSize' [page]="1" [pageSize]="10" ></app-custom-pagination>
+</div>

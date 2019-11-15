@@ -1,0 +1,33 @@
+
+<div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive-sm">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Company Name</th>
+              <th>Zip</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of reporterModel; let i = index">
+                <td>{{ reporterModel[i].firstName }}</td>
+                <td>{{ reporterModel[i].lastName }}</td>
+                <td>{{ reporterModel[i].city }}</td>
+                <td>{{ reporterModel[i].state }}</td>
+                <td>{{ reporterModel[i].latitude }}</td>
+                <td>{{ reporterModel[i].longitude }}</td>
+                <td>{{ reporterModel[i].companyName }}</td>
+                <td>{{ reporterModel[i].zip }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,8 @@
+a[aria-expanded="true"] .fa-caret-down{
+    transform: rotate(180deg);
+  }
+  a[aria-expanded="false"] .fa-caret-down {
+    transform: rotate(0deg);
+  }
+
+ 

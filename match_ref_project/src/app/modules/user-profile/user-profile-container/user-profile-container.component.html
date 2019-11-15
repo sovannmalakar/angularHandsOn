@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-12">
+    
+          <div class="card mb-3">
+            <div class="card-header">Update User Info</div>
+            <div class="card-body">
+                <form  #userregister="ngForm" (ngSubmit)="onUpdate()">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label">First Name</label>
+                          <input type="text" class="form-control" name="fname" placeholder="First Name" [(ngModel)]='userInfo.firstName'>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label">Last Name</label>
+                          <input type="test" class="form-control" name="lname" placeholder="Last Name" [(ngModel)]='userInfo.lastName'>
+                        </div>
+                      </div>
+                     
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label">Email</label>
+                          <input type="email" class="form-control" name="email" placeholder="Email" [(ngModel)]='userInfo.email'>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label">Company Name</label>
+                          <input type="text" name="company" class="form-control" placeholder="Company Name" [(ngModel)]='userInfo.partnerCompanyName'>
+                        </div>
+                      </div>
+                  </form>
+            </div>
+          </div>
+      </div>
+      </div>

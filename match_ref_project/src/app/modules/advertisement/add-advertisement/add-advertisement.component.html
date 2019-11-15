@@ -1,0 +1,136 @@
+<div >
+  
+  <div >
+    <form #addAd="ngForm" (ngSubmit)="addAdvertisementToDb(addAd); addAd.resetForm()" ngNativeValidate >
+
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label class="form-label">Job Name</label>
+          <input type="text" class="form-control" name="jobname" [(ngModel)]='defaultRequest.jobName' placeholder="Job Name" autofocus required >
+        </div>
+      </div>
+
+      <!-- <div class="form-row">
+        <div class="form-group col-md-12">
+          <label class="form-label">Company Name</label>
+          <input type="text" name="advertiserPartnerCompanyName" [(ngModel)]='defaultRequest.advertiserPartnerCompanyName' class="form-control" placeholder="Company Name" required>
+        </div>
+        
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label class="form-label">First Name</label>
+          <input type="text" name="advertiserContactFirstName" [(ngModel)]='defaultRequest.advertiserContactFirstName' class="form-control" placeholder="Advertiser Contact First Name" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="advertiserContactLastName" [(ngModel)]='defaultRequest.advertiserContactLastName' class="form-control" placeholder="Advertiser Contact Last Name" required>
+        </div>
+      </div> -->
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form-label">Start Date</label>
+          <input class="form-control mb-3" placeholder="Select Job Start Date" name="dp" ngbDatepicker
+          [displayMonths]="displayMonths" (dateSelect)="onFromDateSelect($event)" [navigation]="navigation"
+          [disabled]="disabled" #d1="ngbDatepicker" (click)="d1.toggle()" readonly >
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-label">End Date</label>
+            <input class="form-control mb-3" placeholder="Select Job End Date" name="dp" ngbDatepicker
+            [displayMonths]="displayMonths" (dateSelect)="onToDateSelect($event)" [navigation]="navigation"
+            [disabled]="disabled" #d2="ngbDatepicker" (click)="d2.toggle()" readonly >
+          </div>
+        <div class="form-group col-md-4">
+          <label class="form-label">Expiry Date</label>
+          <input class="form-control mb-3" placeholder="Select Expiration Date" name="dp" ngbDatepicker
+          [displayMonths]="displayMonths" (dateSelect)="onExpiryDateSelect($event)" [navigation]="navigation"
+          [disabled]="disabled" #d3="ngbDatepicker" (click)="d3.toggle()" readonly >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label class="form-label">Address 1</label>
+          <input type="text" class="form-control" name="locationAddress1" [(ngModel)]='defaultRequest.locationAddress1' placeholder="53 , Park Avanue" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label">Address 2</label>
+          <input type="text" class="form-control" name="locationAddress2" [(ngModel)]='defaultRequest.locationAddress2' placeholder="Old Stafford Road">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" name="locationCity" [(ngModel)]='defaultRequest.locationCity' placeholder="City" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" name="locationState" [(ngModel)]='defaultRequest.locationState' placeholder="State" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group col-md-6">
+            <label class="form-label">Zip</label>
+            <input type="text" class="form-control" name="locationZip" [(ngModel)]='defaultRequest.locationZip' placeholder="Zip" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-label">Country</label>
+            <input type="text" class="form-control" name="locationCountry" [(ngModel)]='defaultRequest.locationCountry' placeholder="Country" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+            
+            <div class="form-group col-md-6">
+              <label class="form-label">Optional</label>
+                <ss-multiselect-dropdown name="multiselectOpt" [texts]="ssDropDownTextsOpt" [settings]="ssDropDownSettingsOptional"
+                [options]="ssDropDownOptionsOpt" [(ngModel)]="ssDropDownModelRequired" (ngModelChange)="ssDropDownModelOptionalChanged($event)">
+              </ss-multiselect-dropdown>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label">Required</label>
+                <ss-multiselect-dropdown name="multiselectReq" [texts]="ssDropDownTextsReq" [settings]="ssDropDownSettingsRequired"
+                [options]="ssDropDownOptionsReq" [(ngModel)]="ssDropDownModelOptional" (ngModelChange)="ssDropDownModelRequiredChanged($event)">
+              </ss-multiselect-dropdown>
+              </div>
+          </div>
+
+         
+        
+
+        <!-- <div class="form-row">
+            <div class="form-group col-md-1">
+              <label class="form-label">Required Services</label>
+            </div>
+            <div class="col-md-5">
+                <ss-multiselect-dropdown name="multiselect1" [texts]="ssDropDownTexts" [settings]="ssDropDownSettingsRequired"
+                [options]="ssDropDownOptions" [(ngModel)]="ssDropDownModelRequired" (ngModelChange)="ssDropDownModelRequiredChanged($event)">
+              </ss-multiselect-dropdown>
+            </div>
+             
+            
+            <div class="form-group col-md-1">
+                <label class="form-label">Optional Services</label>
+            </div>
+            <div class="col-md-5 second">
+              <ss-multiselect-dropdown name="multiselect" [texts]="ssDropDownTexts" [settings]="ssDropDownSettingsOptional"
+                [options]="ssDropDownOptions" [(ngModel)]="ssDropDownModelOptional" (ngModelChange)="ssDropDownModelOptionalChanged($event)">
+              </ss-multiselect-dropdown>
+            </div>
+          </div> -->
+
+          <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" name="notes" [(ngModel)]='defaultRequest.notes' rows="3" placeholder="Add a brief Note..."></textarea>
+              </div>
+            </div>
+            <input style="display:none" type="submit" class="btn btn-primary btn-block cursor" value="Save">
+            
+    </form>
+  </div>
+</div>
